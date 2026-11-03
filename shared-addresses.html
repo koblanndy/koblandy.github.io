@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Where Tokyo's Companies Share an Address | Adiya</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fff;
+      color: #000;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 80px auto;
+      padding: 0 16px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 8px;
+    }
+
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 48px 0 12px;
+    }
+
+    p { margin: 0 0 12px; }
+
+    .subtitle { color: #777; }
+    .back { display: inline-block; margin-bottom: 40px; }
+
+    a { color: #000; }
+
+    ol, ul {
+      padding-left: 20px;
+      margin: 0 0 12px;
+    }
+    li { margin-bottom: 8px; }
+
+    .map {
+      width: 100%;
+      height: 420px;
+      border: 1px solid #ddd;
+      margin: 32px 0 8px;
+    }
+    .caption { color: #777; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="back" href="index.html">← Back</a>
+
+    <h1>Where Tokyo's Companies Share an Address</h1>
+    <p class="subtitle">Side project, November 2026</p>
+    <p class="subtitle">Python, pandas, GSI geocoding API, Folium</p>
+
+    <iframe class="map" src="map.html" title="Map of Tokyo addresses shared by many companies"></iframe>
+    <p class="caption">
+      Each circle is one address, sized by how many companies are registered there.
+      <a href="map.html">Open the full map</a>.
+    </p>
+
+    <h2>The idea</h2>
+    <p>
+      While working on my <a href="candidate-retrieval.html">thesis</a>, I kept running into
+      single buildings where hundreds of companies are registered. This map shows where those
+      addresses are in Tokyo.
+    </p>
+
+    <h2>What I did</h2>
+    <ol>
+      <li>Started from 1,173,931 active Tokyo companies in the government's gBizINFO registry.</li>
+      <li>Normalized the addresses and counted how many companies are registered at each one.</li>
+      <li>Geocoded the [300] busiest addresses with the free address search from Japan's Geospatial Information Authority (国土地理院).</li>
+      <li>Plotted them with Folium, with each circle sized by company count.</li>
+    </ol>
+
+    <h2>What stands out</h2>
+    <ul>
+      <li>[The busiest single address has N companies registered.]</li>
+      <li>[Where the hotspots cluster, e.g. Marunouchi, Shibuya, Minato.]</li>
+      <li>[One thing that surprised you.]</li>
+    </ul>
+
+    <h2>What it doesn't show</h2>
+    <p>
+      A shared address isn't a sign of wrongdoing. Most of these are virtual offices, accounting
+      firms that administer companies, or structured-finance vehicles that are registered
+      side by side by design. For compliance work, the map shows where to look more closely,
+      not what to conclude.
+    </p>
+
+    <h2>Want to know more?</h2>
+    <p>
+      <a href="mailto:koblanndy@gmail.com">Send me a message</a> if you'd like to talk about it.
+    </p>
+  </main>
+</body>
+</html>
