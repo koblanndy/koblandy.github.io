@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Embedding-Based Candidate Retrieval | Adiya</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fff;
+      color: #000;
+      font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 80px auto;
+      padding: 0 16px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 8px;
+    }
+
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 48px 0 12px;
+    }
+
+    p { margin: 0 0 12px; }
+
+    .subtitle { color: #777; }
+    .back { display: inline-block; margin-bottom: 40px; }
+
+    a { color: #000; }
+
+    ol, ul {
+      padding-left: 20px;
+      margin: 0 0 12px;
+    }
+    li { margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="back" href="index.html">← Back</a>
+
+    <h1>Embedding-Based Candidate Retrieval over Japan's Corporate Registry</h1>
+    <p class="subtitle">Bachelor's thesis, Tokyo International University, 2026</p>
+    <p class="subtitle">Python, EmbeddingGemma, sentence-transformers, FAISS (HNSW)</p>
+
+    <h2>The question</h2>
+    <p>
+      Finding links between companies is central to due diligence and anti-money-laundering work.
+      But Japan's public corporate registry has no ownership data, and the representative field
+      is filled for only 1.3% of Tokyo companies. That leaves two fields that every record has:
+      the company name and the registered address.
+    </p>
+    <p>
+      I asked whether those two fields are enough to surface real business associates, and how
+      much of what they surface is only a surface resemblance.
+    </p>
+
+    <h2>What I did</h2>
+    <ol>
+      <li>Took all 1,173,931 active Tokyo companies from the government's gBizINFO dataset.</li>
+      <li>Normalized each name and address (Unicode, dashes, whitespace) and joined them into one text "fingerprint" per company.</li>
+      <li>Embedded every fingerprint with EmbeddingGemma, a 300M-parameter multilingual model.</li>
+      <li>Searched for each company's 10 nearest neighbours with FAISS, replacing 9.3 × 10<sup>11</sup> possible comparisons with fast approximate search, and kept pairs above 0.90 cosine similarity.</li>
+      <li>Merged the 130,572 resulting pairs into 39,563 clusters and reviewed them by hand.</li>
+    </ol>
+
+    <h2>What I found</h2>
+    <ul>
+      <li>
+        <strong>It finds relationships written into the registration.</strong>
+        Duplicate records, serially named special-purpose vehicles (like 東京レジ1 to 39) and
+        paired securitisation structures come out with high confidence. All eight of the largest
+        clusters, holding 3,043 companies, were families of this kind.
+      </li>
+      <li>
+        <strong>It misses ordinary corporate groups</strong> whose links aren't visible in their names or addresses.
+      </li>
+      <li>
+        <strong>It fails where shared words and shared buildings chain unrelated companies together.</strong>
+        One cluster was hundreds of unrelated firms that happened to use the same English word in their names.
+      </li>
+      <li>
+        <strong>The usable threshold is narrow.</strong>
+        At 0.85, a quarter of all companies collapse into one giant cluster. At 0.95, the largest
+        real structures break apart.
+      </li>
+    </ul>
+
+    <h2>Why it matters</h2>
+    <p>
+      The method works best on exactly the kind of entity that beneficial-ownership research is
+      most concerned about: single-purpose vehicles registered in batches and administered side by
+      side. It isn't a relationship detector, but it can turn a registry of over a million companies
+      into a short, reviewable list for compliance teams. The study also measures how far Japan's
+      open registry data can go for network analysis.
+    </p>
+
+    <h2>Want to know more?</h2>
+    <p>
+      You can <a href="thesis.pdf">read the full thesis (PDF)</a>, or
+      <a href="mailto:koblanndy@gmail.com">send me a message</a> if you'd like to talk about it.
+    </p>
+  </main>
+</body>
+</html>
